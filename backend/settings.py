@@ -85,22 +85,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-# ============================================================================
-# DATABASE CONFIGURATION
-# ============================================================================
-# ============================================================================
+
+
+## ============================================================================
 # DATABASE CONFIGURATION
 # ============================================================================
 import dj_database_url
-import tempfile  # Add this with your other imports
+import sys
 
 # Parse database URL from environment
 DATABASE_URL = os.getenv('DATABASE_URL')
 
-# Check if we're in a build environment (DigitalOcean build phase)
-IS_BUILD_PHASE = os.getenv('BUILD_PHASE', 'false').lower() == 'true' or not DATABASE_URL
+# Check if we're in a build environment (collectstatic running during build)
+# DigitalOcean/AWS/Heroku buildpacks run collectstatic during build
+IN_BUILD_PHASE = 'collectstatic' in sys.argv or os.getenv('BUILD_PHASE', 'false').lower() == 'true'
 
-if DEBUG or IS_BUILD_PHASE:
+if DEBUG or IN_BUILD_PHASE:
     # Development or build phase - use SQLite
     import tempfile
     temp_db = tempfile.NamedTemporaryFile(suffix='.sqlite3')
@@ -110,7 +110,7 @@ if DEBUG or IS_BUILD_PHASE:
             'NAME': temp_db.name,
         }
     }
-    print(f"⚠️  Using SQLite for build phase: {temp_db.name}")
+    print(f"⚠️  Using SQLite for {'build phase' if IN_BUILD_PHASE else 'development'}: {temp_db.name}")
 else:
     # Production with PostgreSQL
     if not DATABASE_URL:
@@ -123,6 +123,8 @@ else:
             conn_health_checks=True,
         )
     }
+
+
 
 # ============================================================================
 # CORS SETTINGS
