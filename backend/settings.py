@@ -88,19 +88,29 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # ============================================================================
 # DATABASE CONFIGURATION
 # ============================================================================
+# ============================================================================
+# DATABASE CONFIGURATION
+# ============================================================================
 import dj_database_url
+import tempfile  # Add this with your other imports
 
 # Parse database URL from environment
 DATABASE_URL = os.getenv('DATABASE_URL')
 
-if DEBUG:
-    # Development with SQLite
+# Check if we're in a build environment (DigitalOcean build phase)
+IS_BUILD_PHASE = os.getenv('BUILD_PHASE', 'false').lower() == 'true' or not DATABASE_URL
+
+if DEBUG or IS_BUILD_PHASE:
+    # Development or build phase - use SQLite
+    import tempfile
+    temp_db = tempfile.NamedTemporaryFile(suffix='.sqlite3')
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'NAME': temp_db.name,
         }
     }
+    print(f"⚠️  Using SQLite for build phase: {temp_db.name}")
 else:
     # Production with PostgreSQL
     if not DATABASE_URL:
