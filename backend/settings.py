@@ -342,4 +342,4 @@ if not DEBUG:
 # ============================================================================
 # DEFAULT PRIMARY KEY FIELD TYPE
 # ============================================================================
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'# Force rebuild - Sun Feb 15 20:25:05 WAT 2026
