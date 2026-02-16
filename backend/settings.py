@@ -33,10 +33,19 @@ ALLOWED_HOSTS = os.getenv(
     "localhost,127.0.0.1"
 ).split(",")
 
+CORS_ALLOWED_ORIGINS = [
+    "https://javanetict.com",
+    "https://www.javanetict.com",
+    "https://javanet-ict-solutions.onrender.com",  # your Render frontend
+    "http://localhost:8080",  # local development (include scheme + port)
+    "http://127.0.0.1:8080",  # local development alternative
+]
+
 CSRF_TRUSTED_ORIGINS = os.getenv(
     "CSRF_TRUSTED_ORIGINS",
-    "http://localhost:3000,http://127.0.0.1:3000"
+    "https://javanet-ict-solutions.onrender.com,http://localhost:3000,http://127.0.0.1:3000"
 ).split(",")
+
 
 # ============================================================
 # APPLICATIONS
