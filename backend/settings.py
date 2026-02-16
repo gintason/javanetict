@@ -9,6 +9,7 @@ import dj_database_url
 # ============================================================
 
 load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ============================================================
@@ -20,6 +21,7 @@ if not SECRET_KEY:
     raise ValueError("DJANGO_SECRET_KEY must be set")
 
 DEBUG = os.getenv("DEBUG", "False") == "True"
+
 DJANGO_SETTINGS_MODULE = os.getenv("DJANGO_SETTINGS_MODULE", "backend.settings")
 
 # ============================================================
@@ -31,10 +33,19 @@ ALLOWED_HOSTS = os.getenv(
     "localhost,127.0.0.1"
 ).split(",")
 
+CORS_ALLOWED_ORIGINS = [
+    "https://javanetict.com",
+    "https://www.javanetict.com",
+    "https://javanet-ict-solutions.onrender.com",  # your Render frontend
+    "http://localhost:8080",  # local development (include scheme + port)
+    "http://127.0.0.1:8080",  # local development alternative
+]
+
 CSRF_TRUSTED_ORIGINS = os.getenv(
     "CSRF_TRUSTED_ORIGINS",
-    ""
+    "https://javanet-ict-solutions.onrender.com,http://localhost:3000,http://127.0.0.1:3000"
 ).split(",")
+
 
 # ============================================================
 # APPLICATIONS
@@ -84,10 +95,31 @@ ROOT_URLCONF = "backend.urls"
 WSGI_APPLICATION = "backend.wsgi.application"
 
 # ============================================================
-# DATABASE
+# TEMPLATES
+# ============================================================
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
+]
+
+# ============================================================
+# DATABASE (POSTGRES ONLY)
 # ============================================================
 
 DATABASE_URL = os.getenv("DATABASE_URL")
+
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL must be set")
 
@@ -105,7 +137,7 @@ DATABASES = {
 
 CORS_ALLOWED_ORIGINS = os.getenv(
     "CORS_ALLOWED_ORIGINS",
-    ""
+    "http://localhost:3000,http://127.0.0.1:3000,http://localhost:8080"
 ).split(",")
 
 CORS_ALLOW_CREDENTIALS = True
@@ -124,7 +156,15 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+    ],
 }
+
+if DEBUG:
+    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"].append(
+        "rest_framework.renderers.BrowsableAPIRenderer"
+    )
 
 # ============================================================
 # JWT
@@ -135,7 +175,9 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=int(os.getenv("JWT_REFRESH_TOKEN_LIFETIME_DAYS", 7))),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
+    "UPDATE_LAST_LOGIN": True,
     "SIGNING_KEY": SECRET_KEY,
+    "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
 # ============================================================
@@ -159,7 +201,7 @@ STORAGES = {
 }
 
 # ============================================================
-# SECURITY
+# SECURITY (PRODUCTION)
 # ============================================================
 
 if not DEBUG:
@@ -170,18 +212,36 @@ if not DEBUG:
     SECURE_HSTS_SECONDS = int(os.getenv("SECURE_HSTS_SECONDS", 31536000))
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    X_FRAME_OPTIONS = "DENY"
-
-APPEND_SLASH = True
-USE_X_FORWARDED_HOST = True
 
 # ============================================================
 # CUSTOM USER
 # ============================================================
 
 AUTH_USER_MODEL = "users.CustomUser"
+
+# ============================================================
+# AI KEYS
+# ============================================================
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+COHERE_API_KEY = os.getenv("COHERE_API_KEY")
+
+# ============================================================
+# EMAIL
+# ============================================================
+
+if DEBUG:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    EMAIL_BACKEND = "users.backends.EmailBackend"
+    EMAIL_HOST = os.getenv("EMAIL_HOST")
+    EMAIL_PORT = int(os.getenv("EMAIL_PORT", 465))
+    EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", "True") == "True"
+    EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "noreply@javanetict.com")
+CONTACT_EMAIL = os.getenv("CONTACT_EMAIL", "admin@javanetict.com")
 
 # ============================================================
 # FRONTEND
