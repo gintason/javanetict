@@ -189,7 +189,7 @@ class PasswordResetView(APIView):
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             
             # Build reset URL
-            frontend_url = getattr(settings, 'FRONTEND_URL', 'https://javanetict.com')
+            frontend_url = getattr(settings, 'FRONTEND_URL', 'https://www.javanetict.com')
             reset_url = f"{frontend_url}/reset-password?uid={uid}&token={token}"
             
             # Create email using EmailMessage

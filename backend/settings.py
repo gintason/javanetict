@@ -34,16 +34,16 @@ ALLOWED_HOSTS = os.getenv(
 ).split(",")
 
 CORS_ALLOWED_ORIGINS = [
-    "https://javanetict.com",
+    "https://www.javanetict.com",
     "https://www.javanetict.com",
     "https://javanet.onrender.com",  # your Render frontend
-    "https://javanetict.com",  # local development (include scheme + port)
+    "https://www.javanetict.com",  # local development (include scheme + port)
     "http://127.0.0.1:8080",  # local development alternative
 ]
 
 CSRF_TRUSTED_ORIGINS = os.getenv(
     "CSRF_TRUSTED_ORIGINS",
-    "https://javanet.onrender.com,https://javanetict.com,https://www.javanetict.com"
+    "https://javanet.onrender.com,https://www.javanetict.com,https://www.javanetict.com"
 ).split(",")
 
 
@@ -137,7 +137,7 @@ DATABASES = {
 
 CORS_ALLOWED_ORIGINS = os.getenv(
     "CORS_ALLOWED_ORIGINS",
-    "https://javanetict.com,https://javanetict.com,https://javanetict.com"
+    "https://www.javanetict.com,https://www.javanetict.com,https://www.javanetict.com"
 ).split(",")
 
 CORS_ALLOW_CREDENTIALS = True
@@ -247,7 +247,7 @@ CONTACT_EMAIL = os.getenv("CONTACT_EMAIL", "admin@javanetict.com")
 # FRONTEND
 # ============================================================
 
-FRONTEND_URL = os.getenv("FRONTEND_URL", "https://javanetict.com")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "https://www.javanetict.com")
 
 # ============================================================
 # AUTO FIELD

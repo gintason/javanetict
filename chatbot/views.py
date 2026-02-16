@@ -292,7 +292,7 @@ class ChatbotView(APIView):
                     "Generate quote"
                 ],
                 "responses": [
-                    "Great! You can generate a customized proposal using our proposal generator:\n\n📋 **Proposal Generator:**\nhttps://javanetict.com/proposal\n\n**What you can do there:**\n• Select which platform(s) you need\n• Specify user counts and requirements\n• Get detailed pricing breakdown\n• Download or share the proposal\n\nAfter generating your proposal, you can discuss it with our sales team."
+                    "Great! You can generate a customized proposal using our proposal generator:\n\n📋 **Proposal Generator:**\nhttps://www.javanetict.com/proposal\n\n**What you can do there:**\n• Select which platform(s) you need\n• Specify user counts and requirements\n• Get detailed pricing breakdown\n• Download or share the proposal\n\nAfter generating your proposal, you can discuss it with our sales team."
                 ],
                 "followups": ["lead_capture", "demo"],
                 "next_step": "lead_capture"
@@ -410,7 +410,7 @@ class ChatbotView(APIView):
                     "That's all"
                 ],
                 "responses": [
-                    "You're welcome! 🎓\n\n**Next Steps:**\n• View demos: https://www.ischool.ng\n• Generate proposal: https://javanetict.com/proposal\n• Contact us: +2347030673089 (WhatsApp)\n\nHave a great day! 👋"
+                    "You're welcome! 🎓\n\n**Next Steps:**\n• View demos: https://www.ischool.ng\n• Generate proposal: https://www.javanetict.com/proposal\n• Contact us: +2347030673089 (WhatsApp)\n\nHave a great day! 👋"
                 ],
                 "followups": []
             }
@@ -855,7 +855,7 @@ class ChatbotView(APIView):
             response += f"• Estimated Users: {volume}\n"
         
         response += f"\n💡 **Personalized Proposal Link:**\n"
-        response += f"https://javanetict.com/proposal?industry={industry.lower()}&country={country.lower()}"
+        response += f"https://www.javanetict.com/proposal?industry={industry.lower()}&country={country.lower()}"
         
         if volume:
             response += f"&users={volume}"
