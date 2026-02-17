@@ -36,7 +36,7 @@ ALLOWED_HOSTS = os.getenv(
 CORS_ALLOWED_ORIGINS = [
     "https://www.javanetict.com",
     "https://www.javanetict.com",
-    "https://javanet.onrender.com",  # your Render frontend
+    "https://javanet.onrender.com",  
     "https://www.javanetict.com",  # local development (include scheme + port)
     "http://127.0.0.1:8080",  # local development alternative
 ]
