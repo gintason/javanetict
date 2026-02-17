@@ -51,3 +51,7 @@ frontend/.vercel
 # Docker
 *.log
 EOF
+node_modules
+.next
+.env
+.env.local
