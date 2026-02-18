@@ -30,7 +30,8 @@ DJANGO_SETTINGS_MODULE = os.getenv("DJANGO_SETTINGS_MODULE", "backend.settings")
 
 ALLOWED_HOSTS = os.getenv(
     "DJANGO_ALLOWED_HOSTS",
-    "localhost,127.0.0.1"
+    "localhost,127.0.0.1",
+    'javanet.onrender.com'
 ).split(",")
 
 CORS_ALLOWED_ORIGINS = [

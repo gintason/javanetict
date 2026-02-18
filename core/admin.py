@@ -29,13 +29,13 @@ class ClientAdmin(admin.ModelAdmin):
 
 @admin.register(Feature)
 class FeatureAdmin(admin.ModelAdmin):
-    list_display = ('name', 'feature_type', 'order', 'icon')
+    list_display = ('name', 'feature_type', 'order',)
     list_filter = ('feature_type',)
     search_fields = ('name', 'description')
     ordering = ('order', 'feature_type')
     fieldsets = (
         (None, {
-            'fields': ('name', 'description', 'icon')
+            'fields': ('name', 'description',)
         }),
         ('Configuration', {
             'fields': ('feature_type', 'order')
